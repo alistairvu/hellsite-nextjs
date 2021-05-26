@@ -19,6 +19,9 @@ Post.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    userId: {
+      type: UUID,
+    },
   },
   { sequelize, tableName: 'posts' }
 );

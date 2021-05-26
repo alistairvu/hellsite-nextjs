@@ -59,7 +59,7 @@ User.init(
 
 User.sync({ alter: true });
 
-User.hasMany(Post, { onDelete: 'cascade' });
-Post.belongsTo(User);
+User.hasMany(Post, { onDelete: 'cascade', foreignKey: 'userId' });
+Post.belongsTo(User, { foreignKey: 'userId' });
 
 export default User;

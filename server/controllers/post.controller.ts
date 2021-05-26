@@ -28,7 +28,7 @@ export const destroyPost = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { id: postId } = req.body.post;
+    const { id: postId } = req.params;
 
     const post = await Post.findByPk(postId);
 
