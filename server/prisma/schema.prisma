@@ -19,6 +19,7 @@ model User {
 
   followers Follow[] @relation("followers", references: [id])
   following Follow[] @relation("following", references: [id])
+  Note      Note[]
 }
 
 model Post {
@@ -26,7 +27,7 @@ model Post {
   content String?
 
   userId Int
-  user   User? @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -34,6 +35,7 @@ model Post {
   repostId   Int?
   repostPost Post?  @relation("RepostPost", fields: [repostId], references: [id])
   repostedBy Post[] @relation("RepostPost")
+  Note       Note[]
 }
 
 model Follow {
@@ -46,4 +48,24 @@ model Follow {
   followers  User[] @relation("followers", references: [id])
 
   @@unique(fields: [followingId, followerId], name: "followerFollowingId")
+}
+
+enum NoteType {
+  LIKE
+  QUOTE
+  REPOST
+}
+
+model Note {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  postId Int
+  post   Post @relation(fields: [postId], references: [id])
+
+  type NoteType
+
+  @@unique(fields: [userId, postId, type], name: "noteInfo")
 }
