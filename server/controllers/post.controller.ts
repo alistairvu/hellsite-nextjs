@@ -14,7 +14,7 @@ export const createPost = async (
       throw new createError.UnprocessableEntity('Missing post content');
     }
 
-    const post = await req.user.createPost({ content });
+    const post = await req.user.createPost({ content, repostId: null });
 
     res.status(201).send({ success: 1, post });
   } catch (err) {
