@@ -32,14 +32,19 @@ Follow.init(
 
 User.belongsToMany(User, {
   through: 'follows',
+  as: 'follower',
   foreignKey: 'followerId',
-  otherKey: 'followingId',
 });
 
 User.belongsToMany(User, {
   through: 'follows',
-  foreignKey: 'followingId',
-  otherKey: 'followerId',
+  as: 'following',
+  foreignKey: 'followerId',
 });
+
+Follow.belongsTo(User, { as: 'follower', onDelete: 'CASCADE' });
+Follow.belongsTo(User, { as: 'following', onDelete: 'CASCADE' });
+
+Follow.sync({ alter: true });
 
 export default Follow;

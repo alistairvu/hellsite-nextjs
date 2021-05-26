@@ -9,7 +9,7 @@ export const createFollow = async (
 ): Promise<void> => {
   try {
     const { id: followerId } = req.user;
-    const { id: followingId } = req.body.follow;
+    const { id: followingId } = req.params;
 
     const existingFollow = await Follow.findOne({
       where: {
@@ -37,7 +37,7 @@ export const createFollow = async (
   }
 };
 
-export const deleteFollow = async (
+export const destroyFollow = async (
   req: Request,
   res: Response,
   next: NextFunction
