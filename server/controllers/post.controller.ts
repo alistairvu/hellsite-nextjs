@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import prisma from '../prisma';
+import { postSerializer } from '../lib/prisma';
 
 export const createPost = async (
   req: Request,
@@ -31,10 +32,21 @@ export const showPost = async (
 ): Promise<void> => {
   try {
     const postId = Number(req.params.id);
+    const userId = req.user?.id || 0;
 
     const post = await prisma.post.findUnique({
       where: {
         id: postId,
+      },
+      include: {
+        notes: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            username: true,
+          },
+        },
       },
     });
 
@@ -42,7 +54,7 @@ export const showPost = async (
       throw new createError.NotFound('No posts with matching id found');
     }
 
-    res.send({ success: 1, post });
+    res.send({ success: 1, post: postSerializer(post, userId) });
   } catch (err) {
     next(err);
   }

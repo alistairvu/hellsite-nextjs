@@ -10,6 +10,7 @@ import {
   statusRouter,
   postRouter,
   followRouter,
+  likeRouter,
 } from './routes';
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use('/api/refresh', refreshRouter);
 app.use('/api/status', statusRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/follows', followRouter);
+app.use('/api/likes', likeRouter);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

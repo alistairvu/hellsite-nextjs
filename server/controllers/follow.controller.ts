@@ -13,7 +13,7 @@ export const createFollow = async (
 
     const existingFollow = await prisma.follow.findUnique({
       where: {
-        followerFollowingId: {
+        followInfo: {
           followerId,
           followingId,
         },
@@ -55,7 +55,7 @@ export const destroyFollow = async (
 
     const follow = await prisma.follow.findUnique({
       where: {
-        followerFollowingId: {
+        followInfo: {
           followerId,
           followingId,
         },
@@ -70,7 +70,7 @@ export const destroyFollow = async (
 
     await prisma.follow.delete({
       where: {
-        followerFollowingId: {
+        followInfo: {
           followerId,
           followingId,
         },

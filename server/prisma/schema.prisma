@@ -19,7 +19,8 @@ model User {
 
   followers Follow[] @relation("followers", references: [id])
   following Follow[] @relation("following", references: [id])
-  Note      Note[]
+
+  notes Note[]
 }
 
 model Post {
@@ -35,7 +36,8 @@ model Post {
   repostId   Int?
   repostPost Post?  @relation("RepostPost", fields: [repostId], references: [id])
   repostedBy Post[] @relation("RepostPost")
-  Note       Note[]
+
+  notes Note[]
 }
 
 model Follow {
@@ -47,7 +49,7 @@ model Follow {
   followerId Int
   followers  User[] @relation("followers", references: [id])
 
-  @@unique(fields: [followingId, followerId], name: "followerFollowingId")
+  @@unique(fields: [followingId, followerId], name: "followInfo")
 }
 
 enum NoteType {
@@ -65,7 +67,9 @@ model Note {
   postId Int
   post   Post @relation(fields: [postId], references: [id])
 
+  repostId Int?
+
   type NoteType
 
-  @@unique(fields: [userId, postId, type], name: "noteInfo")
+  @@unique(fields: [userId, postId, repostId, type], name: "noteInfo")
 }
