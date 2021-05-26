@@ -22,6 +22,26 @@ export const createPost = async (
   }
 };
 
+export const showPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id: postId } = req.params;
+
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+      throw new createError.NotFound('No posts with matching id found');
+    }
+
+    res.send({ success: 1, post });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const destroyPost = async (
   req: Request,
   res: Response,
