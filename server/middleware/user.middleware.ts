@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import User from '../models/user.model';
+import prisma from '../prisma';
 import { decodeAccess } from '../lib/jwt';
 
 const setUser = async (
@@ -22,7 +22,7 @@ const setUser = async (
       return;
     }
 
-    let userId: string;
+    let userId: number;
 
     try {
       const payload = decodeAccess(token);
@@ -33,7 +33,11 @@ const setUser = async (
       return;
     }
 
-    const user = await User.findByPk(userId);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
     req.user = user;
     next();
   } catch (err) {

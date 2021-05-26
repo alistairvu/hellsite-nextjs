@@ -15,7 +15,7 @@ export const refreshAccess = async (
       throw new createError.UnprocessableEntity('No refresh tokens found');
     }
 
-    let userId: string;
+    let userId: number;
 
     try {
       const payload = verifyRefresh(refreshToken);

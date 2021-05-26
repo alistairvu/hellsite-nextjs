@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
-import Post from '../models/post.model';
+import prisma from '../prisma';
 
 export const createPost = async (
   req: Request,
@@ -14,7 +14,9 @@ export const createPost = async (
       throw new createError.UnprocessableEntity('Missing post content');
     }
 
-    const post = await req.user.createPost({ content, repostId: null });
+    const post = await prisma.post.create({
+      data: { content, userId: req.user.id, repostId: undefined },
+    });
 
     res.status(201).send({ success: 1, post });
   } catch (err) {
@@ -28,9 +30,13 @@ export const showPost = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { id: postId } = req.params;
+    const postId = Number(req.params.id);
 
-    const post = await Post.findByPk(postId);
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
 
     if (!post) {
       throw new createError.NotFound('No posts with matching id found');
@@ -48,9 +54,13 @@ export const destroyPost = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { id: postId } = req.params;
+    const postId = Number(req.params.id);
 
-    const post = await Post.findByPk(postId);
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
 
     if (!post) {
       throw new createError.NotFound('No posts with matching id found');
@@ -60,7 +70,11 @@ export const destroyPost = async (
       throw new createError.NotAuthorized('You cannot delete this post');
     }
 
-    await post.destroy();
+    await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
 
     res.send({ success: 1, deleted: 1 });
   } catch (err) {

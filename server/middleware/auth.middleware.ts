@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
-import User from '../models/user.model';
+import prisma from '../prisma';
 import { verifyAccess } from '../lib/jwt';
 
 const checkAuth = async (
@@ -22,7 +22,7 @@ const checkAuth = async (
       throw new createError.Unauthorized('Invalid request');
     }
 
-    let userId: string;
+    let userId: number;
 
     try {
       const payload = verifyAccess(token);
@@ -31,7 +31,11 @@ const checkAuth = async (
       throw new createError.Forbidden('Invalid token');
     }
 
-    const user = await User.findByPk(userId);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
 
     if (!user) {
       throw new createError.Unauthorized('Invalid request');

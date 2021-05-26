@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
-import Follow from '../models/follow.model';
+import prisma from '../prisma';
 
 export const createFollow = async (
   req: Request,
@@ -9,12 +9,14 @@ export const createFollow = async (
 ): Promise<void> => {
   try {
     const { id: followerId } = req.user;
-    const { id: followingId } = req.params;
+    const followingId = Number(req.params.id);
 
-    const existingFollow = await Follow.findOne({
+    const existingFollow = await prisma.follow.findUnique({
       where: {
-        followerId,
-        followingId,
+        followerFollowingId: {
+          followerId,
+          followingId,
+        },
       },
     });
 
@@ -24,7 +26,12 @@ export const createFollow = async (
       );
     }
 
-    const follow = await Follow.create({ followerId, followingId });
+    const follow = await prisma.follow.create({
+      data: {
+        followingId,
+        followerId,
+      },
+    });
 
     res.send({
       success: 1,
@@ -44,12 +51,14 @@ export const destroyFollow = async (
 ): Promise<void> => {
   try {
     const { id: followerId } = req.user;
-    const { id: followingId } = req.params;
+    const followingId = Number(req.params.id);
 
-    const follow = await Follow.findOne({
+    const follow = await prisma.follow.findUnique({
       where: {
-        followerId,
-        followingId,
+        followerFollowingId: {
+          followerId,
+          followingId,
+        },
       },
     });
 
@@ -59,7 +68,14 @@ export const destroyFollow = async (
       );
     }
 
-    await follow.destroy();
+    await prisma.follow.delete({
+      where: {
+        followerFollowingId: {
+          followerId,
+          followingId,
+        },
+      },
+    });
 
     res.send({
       success: 1,

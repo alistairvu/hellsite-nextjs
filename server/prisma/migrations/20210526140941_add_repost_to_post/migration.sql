@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Post" ADD COLUMN     "repostId" INTEGER;
+
+-- AddForeignKey
+ALTER TABLE "Post" ADD FOREIGN KEY ("repostId") REFERENCES "Post"("id") ON DELETE SET NULL ON UPDATE CASCADE;

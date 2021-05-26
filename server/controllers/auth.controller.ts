@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { Op } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import createError from 'http-errors';
-import User from '../models/user.model';
+import prisma from '../prisma';
 import { generateAccess, generateRefresh, verifyRefresh } from '../lib/jwt';
 import { setAdd, setRemove } from '../lib/redis';
 
@@ -14,9 +13,9 @@ export const createUser = async (
   try {
     const { email, username, password } = req.body.user;
 
-    const existingUser = await User.findOne({
+    const existingUser = await prisma.user.findFirst({
       where: {
-        [Op.or]: [{ email }, { username }],
+        OR: [{ email }, { username }],
       },
     });
 
@@ -28,10 +27,8 @@ export const createUser = async (
 
     const salt = await bcrypt.genSalt(10);
     const passwordDigest = await bcrypt.hash(password, salt);
-    const user = await User.create({
-      email,
-      username,
-      passwordDigest,
+    const user = await prisma.user.create({
+      data: { email, username, passwordDigest },
     });
 
     const accessToken = generateAccess(user.id);
@@ -60,7 +57,7 @@ export const loginUser = async (
   try {
     const { email, password } = req.body.user;
 
-    const user = await User.findOne({
+    const user = await prisma.user.findUnique({
       where: {
         email,
       },

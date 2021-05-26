@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import User from '../models/user.model';
+import prisma from '../prisma';
 import { generateAccess, verifyRefresh } from '../lib/jwt';
 import { setIsMember } from '../lib/redis';
 
@@ -16,7 +16,7 @@ export const getStatus = async (
       return;
     }
 
-    let userId: string;
+    let userId: number;
 
     try {
       const payload = verifyRefresh(refreshToken);
@@ -26,7 +26,7 @@ export const getStatus = async (
       return;
     }
 
-    const user = await User.findByPk(userId);
+    const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
       res.send({ success: 1, loggedIn: 0 });
       return;
