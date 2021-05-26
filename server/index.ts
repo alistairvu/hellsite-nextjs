@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
-import { authRouter, refreshRouter, statusRouter } from './routes';
+import { authRouter, refreshRouter, statusRouter, postRouter } from './routes';
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRouter);
 app.use('/api/refresh', refreshRouter);
 app.use('/api/status', statusRouter);
+app.use('/api/posts', postRouter);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

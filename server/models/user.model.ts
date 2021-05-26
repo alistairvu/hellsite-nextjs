@@ -1,4 +1,13 @@
-import { Model, DataTypes, UUID, UUIDV4 } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  UUID,
+  UUIDV4,
+  HasManyCreateAssociationMixin,
+  HasManyGetAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  Association,
+} from 'sequelize';
 import sequelize from '../db';
 import Post from './post.model';
 
@@ -7,6 +16,19 @@ export class User extends Model {
   public username!: string;
   public email!: string;
   public passwordDigest!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+
+  public getPosts!: HasManyGetAssociationsMixin<Post>;
+  public createPost!: HasManyCreateAssociationMixin<Post>;
+  public countPosts!: HasManyCountAssociationsMixin;
+
+  public readonly posts?: Post[];
+
+  public static associations: {
+    posts: Association<User, Post>;
+  };
 }
 
 User.init(
@@ -37,7 +59,7 @@ User.init(
 
 User.sync({ alter: true });
 
-User.hasMany(Post);
+User.hasMany(Post, { onDelete: 'cascade' });
 Post.belongsTo(User);
 
 export default User;

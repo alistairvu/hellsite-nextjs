@@ -34,7 +34,8 @@
     "camelcase": "off",
     "implicit-arrow-linebreak": "off",
     "import/no-extraneous-dependencies": "off",
-    "lines-between-class-members": "off"
+    "lines-between-class-members": "off",
+    "import/no-named-as-default": "off"
   },
   "settings": {
     "import/resolver": {
