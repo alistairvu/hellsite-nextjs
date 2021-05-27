@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
+import { setCookie } from 'nookies';
 import { userAtom } from '../../recoil';
-import axiosClient from '../../api';
+import { publicClient } from '../../api';
 import AppHeader from '../app/AppHeader';
 
 const AppLayout: React.FC = ({ children }) => {
@@ -13,7 +14,7 @@ const AppLayout: React.FC = ({ children }) => {
   useEffect(() => {
     const getStatus = async () => {
       try {
-        const { data } = await axiosClient.get('/api/status');
+        const { data } = await publicClient.get('/api/status');
         if (data.success) {
           setIsLoaded(true);
           if (data.loggedIn) {
@@ -23,6 +24,11 @@ const AppLayout: React.FC = ({ children }) => {
               email: data.user.email,
             });
             window.localStorage.setItem('jwt', data.token);
+
+            setCookie(null, 'access', data.token, {
+              maxAge: 60 * 60 * 24,
+              path: '/',
+            });
           }
         }
       } catch (err) {
