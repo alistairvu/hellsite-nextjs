@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import nookies from 'nookies';
 // import { useRouter } from 'next/router';
 import { serverClient } from '../../api';
 import PostCard from '../../components/post/PostCard';
@@ -13,10 +14,14 @@ const PostPage: React.FC<PostPageProps> = ({ post }) => (
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { id } = query;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { id } = ctx.query;
+  const cookies = nookies.get(ctx);
+  const authorization = cookies.jwt ? { Authorization: cookies.jwt } : {};
 
-  const { data } = await serverClient.get(`/api/posts/${id}`);
+  const { data } = await serverClient.get(`/api/posts/${id}`, {
+    headers: authorization,
+  });
 
   if (!data.success) {
     return {

@@ -29,6 +29,7 @@ clients.forEach((client) => {
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
+      console.log(error);
 
       if (!originalRequest._retry) {
         originalRequest._retry = true;
