@@ -5,3 +5,4 @@ export { default as postRouter } from './post.routes';
 export { default as followRouter } from './follow.routes';
 export { default as likeRouter } from './like.routes';
 export { default as repostRouter } from './repost.routes';
+export { default as quoteRouter } from './quote.routes';

@@ -16,7 +16,11 @@ export const createPost = async (
     }
 
     const post = await prisma.post.create({
-      data: { content, userId: req.user.id, repostId: undefined },
+      data: {
+        content,
+        userId: req.user.id,
+        repostId: undefined,
+      },
     });
 
     res.status(201).send({ success: 1, post });
