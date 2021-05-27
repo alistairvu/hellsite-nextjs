@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { XIcon, MenuIcon, SearchIcon } from '@heroicons/react/solid';
 import HeaderOverlay from './HeaderOverlay';
 import HeaderContext from './HeaderContext';
+import { HellsiteFullLogo } from '../../icons';
 
 const HeaderSmall: React.FC = () => {
   const { isMenuOpen, setIsMenuOpen } = useContext(HeaderContext);
@@ -16,6 +17,10 @@ const HeaderSmall: React.FC = () => {
         >
           {isMenuOpen ? <XIcon /> : <MenuIcon />}
         </button>
+
+        <div className="flex items-center w-32 h-10 px-4 cursor-pointer">
+          <HellsiteFullLogo />
+        </div>
 
         <button
           className="w-10 h-10 p-1 btn-focus btn-inverse-red"
