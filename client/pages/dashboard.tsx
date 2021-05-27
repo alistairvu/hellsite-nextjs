@@ -7,9 +7,9 @@ const DashboardPage: React.FC = () => (
       <title>Login</title>
     </Head>
 
-    <main className="container">
-      <h1 className="font-bold text-4xl">This is the login page!</h1>
-    </main>
+    <div className="container">
+      <h1 className="text-4xl font-bold">This is the login page!</h1>
+    </div>
   </ProtectedPage>
 );
 
