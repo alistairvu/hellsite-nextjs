@@ -7,7 +7,11 @@ const GuestPage: React.FC = ({ children }) => {
 
   if (user.id !== 0) {
     const Redirect = redirect(`/dashboard`);
-    return <Redirect />;
+    return (
+      <Redirect>
+        <div />
+      </Redirect>
+    );
   }
 
   return <>{children}</>;
