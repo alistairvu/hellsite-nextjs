@@ -19,6 +19,7 @@ const AppLayout: React.FC = ({ children }) => {
               username: data.user.username,
               email: data.user.email,
             });
+            window.localStorage.setItem('jwt', data.token);
           }
         }
       } catch (err) {
