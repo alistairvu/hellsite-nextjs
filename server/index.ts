@@ -24,6 +24,10 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+app.use('/api/ping', (_req, res) => {
+  res.send({ success: 1, ping: 'pong' });
+});
+
 app.use('/api/auth', authRouter);
 app.use('/api/refresh', refreshRouter);
 app.use('/api/status', statusRouter);
