@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import prisma from '../prisma';
 
-export const createLike = async (
+export const createRepost = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -20,37 +20,47 @@ export const createLike = async (
       throw new createError.NotFound(`No posts with id ${postId} found`);
     }
 
-    const existingLike = await prisma.note.findUnique({
+    const existingRepost = await prisma.note.findUnique({
       where: {
         noteInfo: {
           userId: req.user.id,
-          repostId: 0,
           postId,
-          type: 'LIKE',
+          repostId: 0,
+          type: 'REPOST',
         },
       },
     });
 
-    if (existingLike) {
-      throw new createError.UnprocessableEntity('You already liked this post!');
+    if (existingRepost) {
+      throw new createError.UnprocessableEntity(
+        'You already reposted this post!'
+      );
     }
 
-    const like = await prisma.note.create({
+    const repost = await prisma.post.create({
+      data: {
+        userId: req.user.id,
+        content: '',
+        repostId: postId,
+      },
+    });
+
+    const repostNote = await prisma.note.create({
       data: {
         userId: req.user.id,
         repostId: 0,
         postId,
-        type: 'LIKE',
+        type: 'REPOST',
       },
     });
 
-    res.status(201).send({ success: 1, liked: 1, like });
+    res.status(201).send({ success: 1, reposted: 1, repostNote, repost });
   } catch (err) {
     next(err);
   }
 };
 
-export const destroyLike = async (
+export const destroyRepost = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -68,20 +78,20 @@ export const destroyLike = async (
       throw new createError.NotFound(`No posts with id ${postId} found`);
     }
 
-    const like = await prisma.note.findUnique({
+    const repost = await prisma.note.findUnique({
       where: {
         noteInfo: {
           userId: req.user.id,
-          repostId: 0,
           postId,
-          type: 'LIKE',
+          repostId: 0,
+          type: 'REPOST',
         },
       },
     });
 
-    if (!like) {
+    if (!repost) {
       throw new createError.UnprocessableEntity(
-        'You have not liked this post!'
+        'You have not reposted this post!'
       );
     }
 
@@ -91,7 +101,7 @@ export const destroyLike = async (
           userId: req.user.id,
           repostId: 0,
           postId,
-          type: 'LIKE',
+          type: 'REPOST',
         },
       },
     });
