@@ -9,7 +9,7 @@ interface PostPageProps {
 }
 
 const PostPage: React.FC<PostPageProps> = ({ post }) => (
-  <div className="container">
+  <div className="container py-2">
     <PostCard {...post} />
   </div>
 );
