@@ -64,17 +64,13 @@ export const loginUser = async (
     });
 
     if (!user) {
-      throw new createError.UnprocessableEntity(
-        'Wrong email/password combination'
-      );
+      throw new createError.Unauthorized('Wrong email/password combination');
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.passwordDigest);
 
     if (!isPasswordMatch) {
-      throw new createError.UnprocessableEntity(
-        'Wrong email/password combination'
-      );
+      throw new createError.Unauthorized('Wrong email/password combination');
     }
 
     const accessToken = generateAccess(user.id);

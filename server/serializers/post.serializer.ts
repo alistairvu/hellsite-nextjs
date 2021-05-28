@@ -1,4 +1,19 @@
-import { PostWithUser } from '../prisma';
+import { Prisma } from '@prisma/client';
+
+const postWithUser = Prisma.validator<Prisma.PostArgs>()({
+  include: {
+    notes: true,
+    user: {
+      select: {
+        id: true,
+        email: true,
+        username: true,
+      },
+    },
+  },
+});
+
+type PostWithUser = Prisma.PostGetPayload<typeof postWithUser>;
 
 interface NoteInterface {
   id: number;
@@ -35,3 +50,5 @@ export const postSerializer = (
   isLiked: isLiked(post.notes, userId),
   isReposted: isReposted(post.notes, userId),
 });
+
+export default postSerializer;

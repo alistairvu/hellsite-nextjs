@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import prisma from '../prisma';
-import { postSerializer } from '../lib/prisma';
+import { postSerializer } from '../serializers';
 
 export const createPost = async (
   req: Request,
