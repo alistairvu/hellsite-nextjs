@@ -4,6 +4,7 @@ import createError from 'http-errors';
 import prisma from '../prisma';
 import { generateAccess, generateRefresh, verifyRefresh } from '../lib/jwt';
 import { setAdd, setRemove } from '../lib/redis';
+import { userSerializer } from '../serializers';
 
 export const createUser = async (
   req: Request,
@@ -43,7 +44,11 @@ export const createUser = async (
       maxAge: 20 * 365 * 24 * 3600 * 1000,
     });
 
-    res.send({ success: 1, user, token: accessToken });
+    res.send({
+      success: 1,
+      user: userSerializer(user),
+      token: accessToken,
+    });
   } catch (err) {
     next(err);
   }
@@ -85,7 +90,11 @@ export const loginUser = async (
       maxAge: 20 * 365 * 24 * 3600 * 1000,
     });
 
-    res.send({ success: 1, user, token: accessToken });
+    res.send({
+      success: 1,
+      user: userSerializer(user),
+      token: accessToken,
+    });
   } catch (err) {
     next(err);
   }

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import prisma from '../prisma';
 import { generateAccess, verifyRefresh } from '../lib/jwt';
 import { setIsMember } from '../lib/redis';
+import { userSerializer } from '../serializers';
 
 export const getStatus = async (
   req: Request,
@@ -43,7 +44,12 @@ export const getStatus = async (
 
     const accessToken = generateAccess(userId);
 
-    res.send({ success: 1, loggedIn: 1, user, token: accessToken });
+    res.send({
+      success: 1,
+      loggedIn: 1,
+      user: userSerializer(user),
+      token: accessToken,
+    });
   } catch (err) {
     next(err);
   }
