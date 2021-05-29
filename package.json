@@ -8,7 +8,7 @@
     "ts-node": "^10.0.0"
   },
   "scripts": {
-    "dev": "concurrently \"yarn --cwd server dev\" \"yarn --cwd client dev\"",
+    "dev": "concurrently \"yarn --cwd server dev\" \"yarn --cwd client dev\" \"redis-server\"",
     "heroku-prebuild": "cd server && yarn && cd .."
   }
 }
