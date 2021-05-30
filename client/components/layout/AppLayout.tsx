@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
-import { setCookie } from 'nookies';
-import { userAtom } from '../../recoil';
 import { publicClient } from '../../api';
+import { useAuth } from '../../hooks';
 import AppHeader from '../app/AppHeader';
 
 const AppLayout: React.FC = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const setUser = useSetRecoilState(userAtom);
   const { pathname } = useRouter();
+  const { saveUser } = useAuth();
 
   useEffect(() => {
     const getStatus = async () => {
@@ -18,17 +16,7 @@ const AppLayout: React.FC = ({ children }) => {
         if (data.success) {
           setIsLoaded(true);
           if (data.loggedIn) {
-            setUser({
-              id: data.user.id,
-              username: data.user.username,
-              email: data.user.email,
-            });
-            window.localStorage.setItem('jwt', data.token);
-
-            setCookie(null, 'access', data.token, {
-              maxAge: 60 * 60 * 24,
-              path: '/',
-            });
+            saveUser(data.user, data.token);
           }
         }
       } catch (err) {
@@ -38,7 +26,7 @@ const AppLayout: React.FC = ({ children }) => {
     };
 
     getStatus();
-  }, [setUser]);
+  }, [saveUser]);
 
   if (!isLoaded) {
     return null;

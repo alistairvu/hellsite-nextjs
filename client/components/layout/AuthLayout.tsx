@@ -25,7 +25,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ isRegister, children }) => (
         <div className="flex flex-col items-center justify-center h-full px-4 md:container">
           <div className="grid w-full md:grid-cols-3">
             <div className="md:col-start-2 md:col-span-1">
-              <div className="flex flex-col items-center justify-center p-2 rounded shadow">
+              <div className="flex flex-col items-center justify-center p-4 rounded shadow">
                 <div className="w-40 mb-2">
                   <HellsiteFullLogo />
                 </div>

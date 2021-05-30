@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface RegisterData {
@@ -8,10 +9,17 @@ interface RegisterData {
 }
 
 const AuthRegisterForm: React.FC = () => {
-  const { register } = useForm<RegisterData>({});
+  const { register, handleSubmit } = useForm<RegisterData>({});
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  const handleRegister = (registerData: RegisterData) => {
+    setIsRegistering(true);
+    console.log(registerData);
+    setTimeout(() => setIsRegistering(false), 1000);
+  };
 
   return (
-    <form className="text-center">
+    <form className="text-center" onSubmit={handleSubmit(handleRegister)}>
       <input
         className="input input-auth input-focus"
         type="text"
@@ -45,7 +53,11 @@ const AuthRegisterForm: React.FC = () => {
         required
       />
 
-      <button type="submit" className="input-auth btn btn-primary btn-focus">
+      <button
+        type="submit"
+        className="input-auth btn btn-primary btn-focus"
+        disabled={isRegistering}
+      >
         Register
       </button>
     </form>
