@@ -13,3 +13,5 @@ interface PostInterface {
   isLiked: boolean;
   isReposted: boolean;
 }
+
+declare module '@tailwindcss/forms';
