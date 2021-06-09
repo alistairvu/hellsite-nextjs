@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { IconButton, Icon } from '@chakra-ui/react';
+import { SVGProps } from 'react';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 interface HeaderLargeButtonProps {
-  icon: any;
+  icon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
   link?: string;
   title: string;
   isRed?: boolean;
@@ -18,10 +18,11 @@ const HeaderLargeButton: React.FC<HeaderLargeButtonProps> = ({
   <Link href={link} passHref>
     <IconButton
       type="button"
+      p={1}
       colorScheme="red"
       variant={isRed ? 'solid' : 'ghost'}
       aria-label={title}
-      icon={<Icon as={icon} />}
+      icon={<Icon as={icon} w={6} h={6} />}
     />
   </Link>
 );

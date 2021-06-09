@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { IconButton, Icon, Flex } from '@chakra-ui/react';
 import { XIcon, MenuIcon, SearchIcon } from '@heroicons/react/solid';
 import HeaderOverlay from './HeaderOverlay';
 import HeaderContext from './HeaderContext';
@@ -9,28 +10,32 @@ const HeaderSmall: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between p-2 shadow-sm">
-        <button
-          className="w-10 h-10 p-1 btn-focus btn-inverse-red"
+      <Flex align="center" justify="space-between" p={2} shadow="base">
+        <IconButton
+          aria-label="Menu"
+          p={1}
+          icon={<Icon as={isMenuOpen ? XIcon : MenuIcon} w={8} h={8} />}
           onClick={() => setIsMenuOpen((prev: boolean) => !prev)}
           type="button"
-        >
-          {isMenuOpen ? <XIcon /> : <MenuIcon />}
-        </button>
+          colorScheme="red"
+          variant="ghost"
+        />
 
-        <div className="flex items-center w-32 h-10 px-4 cursor-pointer">
+        <Flex w={32} h={10} px={4} items="center">
           <HellsiteFullLogo />
-        </div>
+        </Flex>
 
-        <button
-          className="w-10 h-10 p-1 btn-focus btn-inverse-red"
+        <IconButton
+          aria-label="Menu"
+          p={1}
+          icon={<Icon as={SearchIcon} w={8} h={8} />}
           type="button"
-        >
-          <SearchIcon />
-        </button>
-      </div>
+          colorScheme="red"
+          variant="ghost"
+        />
+      </Flex>
 
-      {isMenuOpen && <HeaderOverlay />}
+      <HeaderOverlay />
     </>
   );
 };

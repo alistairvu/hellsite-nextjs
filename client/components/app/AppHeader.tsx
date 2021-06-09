@@ -9,12 +9,18 @@ const AppHeader: React.FC = () => {
 
   return (
     <HeaderContext.Provider value={{ isMenuOpen, setIsMenuOpen }}>
-      <Box as="header" position="sticky" zIndex={40}>
-        <Box display={{ base: 'hidden', md: 'block' }}>
+      <Box
+        as="header"
+        position="sticky"
+        zIndex={40}
+        w="100%"
+        background="white"
+      >
+        <Box display={{ base: 'none', md: 'block' }}>
           <HeaderLarge />
         </Box>
 
-        <Box display={{ base: 'block', md: 'hidden' }}>
+        <Box display={{ base: 'block', md: 'none' }}>
           <HeaderSmall />
         </Box>
       </Box>
