@@ -1,5 +1,7 @@
 import Head from 'next/head';
+import { Heading } from '@chakra-ui/react';
 import { ProtectedPage } from '../components/pages';
+import { AppContainer } from '../components/app';
 
 const DashboardPage: React.FC = () => (
   <ProtectedPage>
@@ -7,9 +9,9 @@ const DashboardPage: React.FC = () => (
       <title>Login</title>
     </Head>
 
-    <div className="container">
-      <h1 className="text-4xl font-bold">This is the login page!</h1>
-    </div>
+    <AppContainer py={2}>
+      <Heading size="xl">Dashboard</Heading>
+    </AppContainer>
   </ProtectedPage>
 );
 

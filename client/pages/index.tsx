@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import { Heading } from '@chakra-ui/react';
+import { AppContainer } from '../components/app';
 
 const HomePage: React.FC = () => (
   <div>
@@ -8,9 +10,9 @@ const HomePage: React.FC = () => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <main className="container">
-      <h1 className="font-bold text-4xl">Hello World!</h1>
-    </main>
+    <AppContainer py={2}>
+      <Heading size="xl">Hello World!</Heading>
+    </AppContainer>
   </div>
 );
 
