@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FormControl, Input, Button } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 
 interface RegisterData {
@@ -19,47 +20,51 @@ const AuthRegisterForm: React.FC = () => {
   };
 
   return (
-    <form className="text-center" onSubmit={handleSubmit(handleRegister)}>
-      <input
-        className="input input-auth input-focus"
-        type="text"
-        name="username"
-        placeholder="Username"
-        {...register('username', { required: true })}
-        required
-      />
-      <input
-        className="input input-auth input-focus"
-        type="email"
-        name="email"
-        placeholder="Email"
-        {...register('email', { required: true })}
-        required
-      />
-      <input
-        className="input input-auth input-focus"
-        type="password"
-        name="password"
-        placeholder="Password"
-        {...register('password', { required: true })}
-        required
-      />
-      <input
-        className="input input-auth input-focus"
-        type="password"
-        name="passwordConfirmation"
-        placeholder="Confirm your Password"
-        {...register('passwordConfirmation', { required: true })}
-        required
-      />
-
-      <button
+    <form onSubmit={handleSubmit(handleRegister)}>
+      <FormControl id="username" mb={1}>
+        <Input
+          focusBorderColor="red.500"
+          type="text"
+          placeholder="Username"
+          {...register('username', { required: true })}
+          isRequired
+        />
+      </FormControl>
+      <FormControl id="email" mb={1}>
+        <Input
+          focusBorderColor="red.500"
+          type="email"
+          placeholder="Email"
+          {...register('email', { required: true })}
+          isRequired
+        />
+      </FormControl>
+      <FormControl id="password" mb={1}>
+        <Input
+          focusBorderColor="red.500"
+          type="password"
+          placeholder="Password"
+          {...register('password', { required: true })}
+          isRequired
+        />
+      </FormControl>
+      <FormControl id="password-confirmation" mb={1}>
+        <Input
+          focusBorderColor="red.500"
+          type="password"
+          placeholder="Confirm your Password"
+          {...register('passwordConfirmation', { required: true })}
+          isRequired
+        />
+      </FormControl>
+      <Button
+        colorScheme="red"
+        w="100%"
         type="submit"
-        className="input-auth btn btn-primary btn-focus"
-        disabled={isRegistering}
+        isDisabled={isRegistering}
       >
         Register
-      </button>
+      </Button>
     </form>
   );
 };

@@ -1,3 +1,4 @@
+import { Flex, Button, Box } from '@chakra-ui/react';
 import { HellsiteSmallLogo, HellsiteFullLogo } from '../icons';
 import { GuestPage } from '../pages';
 
@@ -5,37 +6,46 @@ interface AuthLayoutProps {
   isRegister?: boolean;
 }
 
+const AuthHeader: React.FC<AuthLayoutProps> = ({ isRegister }) => (
+  <Flex as="header" p="2" shadow="base" align="center" justify="space-between">
+    <Flex w={8} h={8} p={1} align="center">
+      <HellsiteSmallLogo />
+    </Flex>
+
+    <Button type="button" colorScheme="red">
+      {isRegister ? 'Login' : 'Register'}
+    </Button>
+  </Flex>
+);
+
 const AuthLayout: React.FC<AuthLayoutProps> = ({ isRegister, children }) => (
   <GuestPage>
-    <div className="flex flex-col w-screen h-screen">
-      <header className="p-2 shadow">
-        <div className="container flex items-center justify-between">
-          <div className="w-8 h-8 p-1">
-            <HellsiteSmallLogo />
-          </div>
-
-          <div>
-            <button className="btn btn-primary btn-focus" type="button">
-              {isRegister ? 'Login' : 'Register'}
-            </button>
-          </div>
-        </div>
-      </header>
-      <main className="flex-grow">
-        <div className="flex flex-col items-center justify-center h-full px-4 md:container">
-          <div className="grid w-full md:grid-cols-3">
-            <div className="md:col-start-2 md:col-span-1">
-              <div className="flex flex-col items-center justify-center p-4 rounded shadow">
-                <div className="w-40 mb-2">
-                  <HellsiteFullLogo />
-                </div>
-                {children}
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+    <Flex direction="column" height="100vh" width="100%">
+      <AuthHeader isRegister={isRegister} />
+      <Flex
+        flexGrow={1}
+        direction="column"
+        align="center"
+        justify="center"
+        h="100%"
+        px={4}
+      >
+        <Flex
+          direction="column"
+          shadow="base"
+          borderRadius="0.125rem"
+          justify="center"
+          align="center"
+          p={4}
+          w={{ base: '100%', md: '33%' }}
+        >
+          <Box w={40} mb={2}>
+            <HellsiteFullLogo />
+          </Box>
+          <Box w="100%">{children}</Box>
+        </Flex>
+      </Flex>
+    </Flex>
   </GuestPage>
 );
 

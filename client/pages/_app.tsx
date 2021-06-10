@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 import { RecoilRoot } from 'recoil';
 import AppLayout from '../components/layout/AppLayout';
-import '../styles/globals.css';
 
 const queryClient = new QueryClient();
 

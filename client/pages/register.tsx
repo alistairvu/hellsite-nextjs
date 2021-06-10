@@ -3,9 +3,7 @@ import AuthRegisterForm from '../components/auth/AuthRegisterForm';
 
 const RegisterPage: React.FC = () => (
   <AuthLayout isRegister>
-    <div>
-      <AuthRegisterForm />
-    </div>
+    <AuthRegisterForm />
   </AuthLayout>
 );
 

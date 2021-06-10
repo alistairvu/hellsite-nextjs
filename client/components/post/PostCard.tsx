@@ -1,4 +1,5 @@
 import { useContext, createContext } from 'react';
+import { Box, Text } from '@chakra-ui/react';
 
 const PostContext = createContext(null);
 
@@ -6,9 +7,9 @@ const PostHeader: React.FC = () => {
   const { post } = useContext(PostContext);
 
   return (
-    <div className="px-4 py-2 border-b-2 border-gray-100">
-      <h1 className="font-semibold">{post.user.username}</h1>
-    </div>
+    <Box px={4} py={2} borderBottomWidth={2} borderColor="gray.100">
+      <Text fontWeight={600}>{post.user.username}</Text>
+    </Box>
   );
 };
 
@@ -16,9 +17,9 @@ const PostBody: React.FC = () => {
   const { post } = useContext(PostContext);
 
   return (
-    <div className="px-4 py-2">
-      <h1 className="whitespace-pre-line">{post.content}</h1>
-    </div>
+    <Box px={4} py={2}>
+      <Text>{post.content}</Text>
+    </Box>
   );
 };
 
@@ -27,10 +28,10 @@ const PostCard: React.FC<PostInterface> = (props) => {
 
   return (
     <PostContext.Provider value={{ post }}>
-      <div className="border-2 border-gray-100 rounded-sm">
+      <Box borderWidth={2} borderColor="gray.100" borderRadius="0.125rem">
         <PostHeader />
         <PostBody />
-      </div>
+      </Box>
     </PostContext.Provider>
   );
 };
